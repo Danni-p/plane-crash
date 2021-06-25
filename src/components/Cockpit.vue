@@ -4,7 +4,7 @@
   <flight-height :class="mq.xs.matches ? '' : 'height'" />
   <flight-angle :class="mq.xs.matches ? '' : 'angle'"/>
   <flight-direction :class="mq.xs.matches ? '' : 'direction'"/>
-  <flight-deflection :class="mq.xs.matches ? '' : 'deflection'"/>
+  <!-- <flight-deflection :class="mq.xs.matches ? '' : 'deflection'"/> -->
 </div>
  <q-footer elevated class="bg-grey-8 text-white">
       <q-toolbar>
@@ -43,7 +43,7 @@ import { defineComponent, ref } from 'vue'
 import FlightHeight from 'src/components/cockpit/FlightHeight.vue'
 import FlightDistance from 'src/components/cockpit/FlightDistance.vue'
 import FlightAngle from 'src/components/cockpit/FlightAngle.vue'
-import FlightDeflection from 'src/components/cockpit/FlightDeflection.vue'
+/* import FlightDeflection from 'src/components/cockpit/FlightDeflection.vue' */
 import FlightDirection from 'src/components/cockpit/FlightDirection.vue'
 import useCockpit from 'src/modules/cockpit/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
@@ -54,8 +54,8 @@ export default defineComponent({
     FlightHeight,
     FlightDistance,
     FlightAngle,
-    FlightDirection,
-    FlightDeflection
+    FlightDirection/* ,
+    FlightDeflection */
   },
   setup () {
     const mq = useBreakpoints({
@@ -91,7 +91,7 @@ export default defineComponent({
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 25% 45% auto;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   gap: 10px;
 }
 
@@ -109,23 +109,21 @@ export default defineComponent({
 
 .height {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 4;
 }
 
 .angle {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 4;
 }
 
-.deflection {
+/* .deflection {
   grid-column: 1;
   grid-row: 3;
-}
+} */
 
 .direction {
-  grid-column: 2;
-  grid-row: 3;
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 2;
 }
-
-
 </style>

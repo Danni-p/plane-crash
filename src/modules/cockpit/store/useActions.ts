@@ -42,11 +42,11 @@ export default function useActions () {
 
   function resetState () {
     state.X = 0
-    state.Y = 500000
-    state.Z = 10000
+    state.Y = state.startDistance
+    state.Z = state.startHeight
     state.angle = 0
     state.beta = 0
-    state.minZDot = 0
+    /* state.minZDot = 0 */
     state.velocityXY = 300
   }
 

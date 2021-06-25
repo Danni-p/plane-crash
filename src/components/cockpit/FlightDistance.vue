@@ -20,17 +20,18 @@
       </div>
       <!-- <div class="text-subtitle1 text-white text-center">
         {{getVelocityXY}} m/s
-      </div>   -->   
+      </div>   -->
     </div>
   </div>
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, watchEffect } from 'vue'
 import useCockpit from 'src/modules/cockpit/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
 import { calcAbsoluteDistanceInKm } from 'src/utils/CalculateUtils'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'FlightDistance',
@@ -38,10 +39,14 @@ export default defineComponent({
     const mq = useBreakpoints({
       xs: [0, 700]
     })
+
+    const router = useRouter()
+
     const {
       getX,
       getY,
-      getVelocityXY
+      getVelocityXY,
+      stopSimulation
     } = useCockpit()
 
     /* const curDistance = computed(() => {
@@ -53,6 +58,13 @@ export default defineComponent({
       return {
         min: 0,
         max: Math.round(calcAbsoluteDistanceInKm(getX.value, getY.value) * 10) / 10
+      }
+    })
+
+    watchEffect(async () => {
+      if (calcAbsoluteDistanceInKm(getX.value, getY.value) * 1000 <= 300) {
+        stopSimulation()
+        await router.push({ name: 'Win' })
       }
     })
 

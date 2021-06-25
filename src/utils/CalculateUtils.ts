@@ -1,5 +1,5 @@
 export const calcMinVelocityZ = (height: number, veloX: number, distX: number) => {
-  return (height * veloX) / distX
+  return (height * veloX) / (distX * 2) // fallgeschwindigkeit so berechnet dass im idealfall für zwei strecken reicht
 }
 
 export const calcZDot = (minZDot: number, dropFaktor: number) => {

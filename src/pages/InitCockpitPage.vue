@@ -4,6 +4,29 @@
       <q-card class="my-card bg-secondary text-white">
         <q-form @submit="handleGotoCockpit()">
           <q-card-section>
+            <div class="text-h6">Kürzeste Flugzeit zur Insel</div>
+            <div class="text-subtitle2">bei perfektem Manöver</div>
+          </q-card-section>
+          <q-card-section>
+            <div class="row items-center">
+              <div class="col">
+                <q-input
+                  outlined
+                  bg-color="white"
+                  class="q-pb-lg"
+                  v-model.number="flightTime"
+                  type="number"
+                  label="Flugzeit">
+                  <template v-slot:append>min</template>
+                </q-input> 
+              </div>
+            </div>
+            <div class="row">
+              Erklärung: Wenn das Flugzeug stets seinen perfekten Kurs beibehält und niemals neu ausgerichtet werden muss, erreicht
+              es die Insel in der Zeit t. Diese Zeit t kann hier definiert werden.
+            </div>
+          </q-card-section>
+          <!-- <q-card-section>
               <q-input
               outlined
               bg-color="white"
@@ -21,12 +44,13 @@
                 label="Distanz">
                 <template v-slot:append>km</template>
               </q-input>
-          </q-card-section>
+          </q-card-section> -->
           <q-separator dark />
           <q-card-actions align="center">
             <q-btn
               class="full-width"
               flat
+              :disable="flightTime <= 0"
               type="submit"
               label="Zum Cockpit"/>
           </q-card-actions>
@@ -40,7 +64,6 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useCockpit from 'src/modules/cockpit/store'
-import { calcMinVelocityZ } from 'src/utils/CalculateUtils'
 
 export default defineComponent({
   name: 'InitCockpitPage',
@@ -49,27 +72,23 @@ export default defineComponent({
   setup () {
     const router = useRouter()
     const {
-      commitSetZ,
       commitSetY,
       commitSetX,
-      commitSetMinZDot,
-      getZ,
-      getY,
+      commitSetStartDistance,
       getVelocityXY
     } = useCockpit()
-    const height = ref(getZ.value)
-    const distance = ref(getY.value)
+    const flightTime = ref(30)
     async function handleGotoCockpit () {
-      commitSetZ(10000)
-      commitSetY(distance.value)
+      const distance = getVelocityXY.value * flightTime.value * 60
+      commitSetStartDistance(distance)
+      commitSetY(distance)
       commitSetX(0)
-      commitSetMinZDot(calcMinVelocityZ(height.value, getVelocityXY.value, distance.value))
+      /* commitSetMinZDot(calcMinVelocityZ(height.value, getVelocityXY.value, distance.value)) */
       await router.push({ name: 'Cockpit' })
     }
     return {
-      height,
-      distance,
-      handleGotoCockpit
+      handleGotoCockpit,
+      flightTime
     }
   }
 })

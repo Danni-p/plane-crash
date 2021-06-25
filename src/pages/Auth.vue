@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="row items-center justify-evenly q-pa-md">
     <password />
   </q-page>
 </template>
@@ -14,7 +14,9 @@ export default defineComponent({
     Password
   },
   setup () {
-    return { }
+    
+    return { 
+    }
   }
 })
 </script>

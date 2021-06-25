@@ -1,4 +1,5 @@
 
+import { calcMinVelocityZ } from 'src/utils/CalculateUtils'
 import { computed } from 'vue'
 import state from './state'
 
@@ -8,8 +9,11 @@ export default function useGetters () {
     getY: computed(() => state.Y),
     getX: computed(() => state.X),
     getVelocityXY: computed(() => state.velocityXY),
-    getMinZDot: computed(() => state.minZDot),
+    getMinZDot: computed(() => calcMinVelocityZ(state.startHeight, state.velocityXY, state.startDistance)),
     getBeta: computed(() => state.beta),
-    getAngle: computed(() => state.angle)
+    getAngle: computed(() => state.angle),
+    getFlightTime: computed(() => state.flightTime),
+    getStartHeight: computed(() => state.startHeight),
+    getStartDistance: computed(() => state.startDistance)
   }
 }

@@ -134,7 +134,7 @@ export default defineComponent({
     }
 
     function handleDecreaseActive () {
-      if (activeNr.value <= 1) {
+      if (activeNr.value <= 0) {
         return
       }
       if (props.side === 'left') {

@@ -1,5 +1,5 @@
 <template>
-  <q-card style="width: 50%;">
+  <q-card :class="mq.xs.matches ? 'full-width' : 'desktop-card'">
       <q-card-section class="bg-primary text-white">
         <div class="text-h6">Password eingeben</div>
       </q-card-section>
@@ -25,12 +25,16 @@
 import { defineComponent, ref } from 'vue'
 import useAuth from 'src/modules/auth/store'
 import { useRouter } from 'vue-router'
+import useBreakpoints from 'src/utils/useBreakpoints'
 
 export default defineComponent({
   name: 'Password',
   props: {
   },
   setup () {
+    const mq = useBreakpoints({
+      xs: [0, 500]
+    })
     const { loginWithEmail } = useAuth()
     const router = useRouter()
     const pwd = ref('')
@@ -44,8 +48,14 @@ export default defineComponent({
     }
     return {
       pwd,
-      handleLogin
+      handleLogin,
+      mq
     }
   }
 })
 </script>
+<style scoped>
+.desktop-card {
+  min-width: 500px;
+}
+</style>

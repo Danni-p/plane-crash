@@ -21,12 +21,24 @@ export default function useMutations () {
     state.velocityXY = velo
   }
 
-  function commitSetMinZDot (velo: number) {
+  /* function commitSetMinZDot (velo: number) {
     state.minZDot = velo
+  } */
+
+  function commitSetStartDistance (dist: number) {
+    state.startDistance = dist
+  }
+
+  function commitSetStartHeight (height: number) {
+    state.startHeight = height
   }
 
   function commitSetAngle (angle: number) {
     state.angle = angle
+  }
+
+  function commitSetFlightTime (time: number) {
+    state.flightTime = time
   }
 
   return {
@@ -36,6 +48,9 @@ export default function useMutations () {
     commitSetBeta,
     commitSetAngle,
     commitSetVelocityXY,
-    commitSetMinZDot
+    commitSetStartDistance,
+    commitSetStartHeight,
+    commitSetFlightTime
+    /* commitSetMinZDot */
   }
 }

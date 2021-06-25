@@ -44,6 +44,16 @@ const routes: RouteRecordRaw[] = [
         path: 'init',
         name: 'InitCockpit',
         component: () => import('src/pages/InitCockpitPage.vue')
+      },
+      {
+        path: 'win',
+        name: 'Win',
+        component: () => import('src/pages/WinPage.vue')
+      },
+      {
+        path: 'loose',
+        name: 'Loose',
+        component: () => import('src/pages/LoosePage.vue')
       }
     ]
   },

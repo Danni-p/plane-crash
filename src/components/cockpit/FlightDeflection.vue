@@ -21,7 +21,7 @@
         <q-icon size="50px" :color="getX > 0 ? 'negative' : 'white'" name="chevron_right" />
       </div>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script lang="ts">

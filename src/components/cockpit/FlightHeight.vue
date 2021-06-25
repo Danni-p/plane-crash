@@ -26,7 +26,7 @@
                   {{curVelocityY}} m/s
                 </div>
                 <div class="col-1">
-                  {{getZ < 0 ? 0 : getZ}} m
+                  {{ZGreaterZero}} m
                 </div>
               </div>
             </q-circular-progress>
@@ -40,6 +40,7 @@ import { defineComponent, ref, computed, watch } from 'vue'
 import useCockpit from 'src/modules/cockpit/store'
 import useWing from 'src/modules/wing/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'FlightAngle',
@@ -49,6 +50,7 @@ export default defineComponent({
       sm: [401, 700],
       md: [701, 1000]
     })
+    const router = useRouter()
     const {
       getZ,
       getMinZDot,
@@ -95,7 +97,7 @@ export default defineComponent({
     const fontSize = computed(() => {
       if (mq.xs.matches) {
         return '15pt'
-      }  else if (mq.sm.matches) {
+      } else if (mq.sm.matches) {
         return '17pt'
       } else if (mq.md.matches) {
         return '20pt'
@@ -104,14 +106,18 @@ export default defineComponent({
       }
     })
 
-    watch(getZ, (newVal) => {
+    watch(getZ, async (newVal) => {
       if (newVal <= 0) {
         stopSimulation()
+        await router.push({ name: 'Loose' })
       }
     })
 
+    const ZGreaterZero = computed(() => getZ.value < 0 ? 0 : getZ.value)
+
     return {
       getZ,
+      ZGreaterZero,
       startHeight,
       curVelocityY,
       size,
