@@ -1,7 +1,7 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <div class="col-md-6 col-12 q-pa-sm">
-      <q-card class="my-card bg-secondary text-white">
+    <div class="col-md-6 col-12 q-pa-md">
+      <q-card class="my-card bg-myOrange text-white">
         <q-form @submit="handleGotoCockpit()">
           <q-card-section>
             <div class="text-h6">Kürzeste Flugzeit zur Insel</div>

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-myOrange">
         <q-btn
           flat
           icon="arrow_back"

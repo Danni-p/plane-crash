@@ -1,19 +1,15 @@
 <template>
   <div class="row items-center">
-    <div class="col-12" :class="heightClass">
-      <q-circular-progress
-        show-value
-        class="text-white"
-        :value="getZ"
-        :size="size+'px'"
-        :max="startHeight"
-        color="myOrange"
-        :font-size="`${size/10}px`">
-        <q-img :width="size-30 + 'px'" src="cockpit/hoehe.png" />
-        <div class="" style="position: absolute">
-          {{ZGreaterZero}} m
+    <div class="col-12" :class="dropVeloClass">
+      <q-avatar
+        :size="size + 'px'"
+        color="transparent"
+        text-color="white">
+        <q-img :width="size + 'px'" src="cockpit/fallVelo.png" />
+        <div :class="colorClass" :style="`font-size: ${size/10}px; position: absolute;`">
+          {{curVelocityY}} m/s
         </div>
-      </q-circular-progress>
+      </q-avatar>
     </div>
   </div>
 </template>
@@ -24,9 +20,10 @@ import useCockpit from 'src/modules/cockpit/store'
 import useWing from 'src/modules/wing/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
 import { useRouter } from 'vue-router'
+import { calcMaxVelocityZ } from 'src/utils/CalculateUtils'
 
 export default defineComponent({
-  name: 'FlightHeight',
+  name: 'FlightDropVelocity',
   setup () {
     const mq = useBreakpoints({
       xs: [0, 400],
@@ -45,9 +42,17 @@ export default defineComponent({
     const { getDropFactor } = useWing()
     const startHeight = ref(getZ.value)
 
+    const maxVeloZ = calcMaxVelocityZ(getMinZDot.value)
+
     const curVelocityY = computed(() => {
       return Math.round(getMinZDot.value * (2 - getDropFactor.value) * 10) / 10
     })
+
+    const colorClass = computed(() => {
+      const relVelo = (curVelocityY.value - getMinZDot.value) / (maxVeloZ - getMinZDot.value)
+      return 'text-deep-orange-' + Math.ceil(relVelo * 10)
+    })
+
     const size = computed(() => {
       if (mq.xs.matches) {
         return 100
@@ -62,29 +67,17 @@ export default defineComponent({
       }
     })
 
-    const heightClass = computed(() => {
+    const dropVeloClass = computed(() => {
       if (mq.xs.matches) {
-        return 'height-xs'
+        return 'drop-velo-xs'
       } else if (mq.sm.matches) {
-        return 'height-sm'
+        return 'drop-velo-sm'
       } else if (mq.md.matches) {
-        return 'height-md'
+        return 'drop-velo-md'
       } else if (mq.lg.matches) {
-        return 'height-lg'
+        return 'drop-velo-lg'
       } else {
-        return 'height-xl'
-      }
-    })
-
-    const fontSize = computed(() => {
-      if (mq.xs.matches) {
-        return '15pt'
-      } else if (mq.sm.matches) {
-        return '17pt'
-      } else if (mq.md.matches) {
-        return '20pt'
-      } else {
-        return '24pt'
+        return 'drop-velo-xl'
       }
     })
 
@@ -98,37 +91,39 @@ export default defineComponent({
     const ZGreaterZero = computed(() => getZ.value < 0 ? 0 : getZ.value)
 
     return {
+      dropVeloClass,
+      colorClass,
       getZ,
       ZGreaterZero,
       startHeight,
       curVelocityY,
       size,
-      fontSize,
       mq,
-      heightClass
+      maxVeloZ,
+      getMinZDot
     }
   }
 })
 </script>
 <style scoped>
-.height-xl {
+.drop-velo-xl {
   text-align: center;
 }
 
-.height-lg {
-  text-align: left;
+.drop-velo-lg {
+  text-align: right;
 }
 
-.height-md {
-  text-align: left;
+.drop-velo-md {
+  text-align: right;
 }
 
-.height-sm {
-  text-align: left;
+.drop-velo-sm {
+  text-align: right;
 }
 
-.height-xs {
-  text-align: left;
+.drop-velo-xs {
+  text-align: right;
 }
 
 </style>

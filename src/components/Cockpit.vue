@@ -1,10 +1,11 @@
 <template>
-<div :class="mq.xs.matches ? 'container-mobile' : 'container'" class="q-pa-sm">
-  <flight-distance :class="mq.xs.matches ? '' : 'distance'"/>
-  <flight-height :class="mq.xs.matches ? '' : 'height'" />
-  <flight-angle :class="mq.xs.matches ? '' : 'angle'"/>
-  <flight-direction :class="mq.xs.matches ? '' : 'direction'"/>
-  <!-- <flight-deflection :class="mq.xs.matches ? '' : 'deflection'"/> -->
+<div class="container" :class="(mq.xs.matches || mq.sm.matches) ? 'q-pa-sm' : 'q-pa-lg'">
+  <!-- <flight-distance :class="mq.xs.matches ? '' : 'distance'"/> -->
+  <flight-height class="height" />
+  <flight-angle class="angle"/>
+  <flight-direction class="direction"/>
+  <flight-velocity class="velocity"/>
+  <flight-drop-velocity class="drop-velocity"/>
 </div>
  <q-footer elevated class="bg-grey-8 text-white">
       <q-toolbar>
@@ -39,29 +40,40 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watchEffect } from 'vue'
 import FlightHeight from 'src/components/cockpit/FlightHeight.vue'
-import FlightDistance from 'src/components/cockpit/FlightDistance.vue'
+/* import FlightDistance from 'src/components/cockpit/FlightDistance.vue' */
 import FlightAngle from 'src/components/cockpit/FlightAngle.vue'
 /* import FlightDeflection from 'src/components/cockpit/FlightDeflection.vue' */
 import FlightDirection from 'src/components/cockpit/FlightDirection.vue'
+import FlightVelocity from 'src/components/cockpit/FlightVelocity.vue'
+import FlightDropVelocity from 'src/components/cockpit/FlightDropVelocity.vue'
 import useCockpit from 'src/modules/cockpit/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
+import { calcAbsoluteDistanceInKm } from 'src/utils/CalculateUtils'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'Cockpit',
   components: {
     FlightHeight,
-    FlightDistance,
+    /* FlightDistance, */
     FlightAngle,
-    FlightDirection/* ,
+    FlightDirection,
+    FlightVelocity,
+    FlightDropVelocity/* ,
     FlightDeflection */
   },
   setup () {
     const mq = useBreakpoints({
-      xs: [0, 700]
+      xs: [0, 400],
+      sm: [401, 700]
     })
+
+    const router = useRouter()
     const {
+      getX,
+      getY,
       getZ,
       startSimulation,
       stopSimulation
@@ -78,6 +90,13 @@ export default defineComponent({
       }
     }
 
+    watchEffect(() => {
+      if (calcAbsoluteDistanceInKm(getX.value, getY.value) * 1000 <= 300) {
+        stopSimulation()
+        void router.push({ name: 'Win' })
+      }
+    })
+
     return {
       curHeight,
       mq,
@@ -89,32 +108,45 @@ export default defineComponent({
 </script>
 <style scoped>
 .container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   gap: 10px;
 }
 
-.container-mobile {
+/* .container-mobile {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 20% 20% 20% 20% 20%;
   gap: 10px;
-}
+} */
 
-.distance {
+/* .distance {
   grid-column: 1 / span 2;
   grid-row: 1;
-}
+} */
 
 .height {
   grid-column: 1;
   grid-row: 4;
 }
 
-.angle {
+.velocity {
   grid-column: 2;
-  grid-row: 4;
+  grid-row: 4
+}
+
+.drop-velocity {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.angle {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 /* .deflection {

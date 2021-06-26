@@ -1,6 +1,6 @@
 <template>
 <div class="q-pa-xl col-lg-6 col-12">
-  <div :class="mq.xs.matches ? 'text-h5' : 'text-h3'" class="text-h3 text-center q-pb-lg">{{heading}}</div>
+  <div :class="mq.xs.matches ? 'text-h5' : 'text-h3'" class="text-white text-h3 text-center q-pb-lg">{{heading}}</div>
   <q-carousel
       swipeable
       animated
@@ -90,7 +90,7 @@ export default defineComponent({
       await router.push({ name: 'RightWing' })
     }
 
-    async function gotoCockpit() {
+    async function gotoCockpit () {
       await router.push({ name: 'InitCockpit' })
     }
 

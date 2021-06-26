@@ -2,19 +2,13 @@
 <template>
   <div class="row items-center">
     <div
-      class="col-12" :class="angleClass">
+      class="col-12" :class="veloClass">
       <q-avatar
         :size="size + 'px'"
         color="transparent"
         text-color="white">
         <div style="position: absolute">
-          <q-img :width="size + 'px'" src="cockpit/neigung.png" />
-        </div>
-
-        <div
-          class="target bg-transparent q-pa-none"
-          :style="`transform: rotate(${getAngle}deg)`">
-          <q-img class="" :width="size/ 1.5 + 'px'" src="angle.png" />
+          <q-img :width="size + 'px'" src="cockpit/velo.png" />
         </div>
       </q-avatar>
     </div>
@@ -27,7 +21,7 @@ import useCockpit from 'src/modules/cockpit/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
 
 export default defineComponent({
-  name: 'FlightAngle',
+  name: 'FlightVelocity',
   setup () {
     const mq = useBreakpoints({
       xs: [0, 400],
@@ -51,24 +45,24 @@ export default defineComponent({
       }
     })
 
-    const angleClass = computed(() => {
+    const veloClass = computed(() => {
       if (mq.xs.matches) {
-        return 'angle-xs'
+        return 'velo-xs'
       } else if (mq.sm.matches) {
-        return 'angle-sm'
+        return 'velo-sm'
       } else if (mq.md.matches) {
-        return 'angle-md'
+        return 'velo-md'
       } else if (mq.lg.matches) {
-        return 'angle-lg'
+        return 'velo-lg'
       } else {
-        return 'angle-xl'
+        return 'velo-xl'
       }
     })
 
     const { getAngle } = useCockpit()
     return {
+      veloClass,
       getAngle,
-      angleClass,
       size,
       mq
     }
@@ -76,38 +70,23 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.container-tab {
-  display: grid;
-  grid-template-rows: 20px auto;
-}
-
-.heading {
-  justify-self: start;
-}
-
-.content {
-  justify-self: stretch;
-  align-self: center;
-}
-
-.angle-xl {
+.velo-xl {
   text-align: center;
 }
 
-.angle-lg {
-  text-align: left;
+.velo-lg {
+  text-align: right;
 }
 
-.angle-md {
-  text-align: left;
+.velo-md {
+  text-align: right;
 }
 
-.angle-sm {
-  text-align: left;
+.velo-sm {
+  text-align: right;
 }
 
-.angle-xs {
-  text-align: left;
+.velo-xs {
+  text-align: right;
 }
-
 </style>

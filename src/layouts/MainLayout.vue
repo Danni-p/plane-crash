@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated>
-      <q-toolbar>
+    <q-header class="bg-myOrange" elevated>
+      <q-toolbar class="bg-myOrange">
         <q-toolbar-title class="text-center">Flugzeugabsturz</q-toolbar-title>
         <q-btn
           v-if="isAuthenticated"

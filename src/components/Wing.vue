@@ -1,11 +1,58 @@
 <template>
-  <div class="col-md-6 col-12 q-pa-sm">
-    <q-card class="my-card bg-secondary text-white">
+  <div class="container q-pa-md myCard">
+    <div class="q-pb-xl">
+      <q-btn
+        flat
+        text-color="white"
+        @click="handleIncrease()"
+        class="full-width bg-myDarkBrown full-height">
+        <q-icon name="arrow_drop_up" style="font-size: 4rem;" />
+      </q-btn>
+    </div>
+    
+    <div class="row items-center">
+      <div class=" col-12 row">
+        <div class="col-6 text-center">
+          <div class="text-h6 text-white">aktiv</div>
+        </div>
+        <div class="col text-center">
+          <div class="text-h6 text-white">max</div>
+        </div>
+      </div>
+      <div class=" col-12 q-py-lg">
+        <q-btn-toggle
+          unelevateds
+          spread
+          size="lg"
+          class="q-my-xl"
+          v-model="toggle"
+          no-caps
+          toggle-color="myOrange"
+          color="myDarkGrey"
+          :options="[
+            {label: activeNr, value: 'active', style: 'font-size:24pt'},
+            {label: maxNr, value: 'max', style: 'font-size:24pt'}
+          ]"
+        />
+      </div>
+    </div>
+    <div class="q-pt-xl">
+      <q-btn
+        flat
+        text-color="white"
+        @click="handleDecrease()"
+        class="full-width full-height bg-myDarkBrown">
+        <q-icon name="arrow_drop_down" style="font-size: 4rem;" />
+      </q-btn>
+    </div>
+  </div>
+  <!-- <div class="col-md-6 col-12 q-pa-sm my-card">
+    <q-card class=" bg-myDarkBrown text-white">
       <q-card-section>
         <q-btn
           flat
           @click="handleIncrease()"
-          class="full-width">
+          class="full-width q-py-xl">
           <q-icon name="arrow_drop_up" style="font-size: 4rem;" />
         </q-btn>
       </q-card-section>
@@ -27,8 +74,8 @@
               class="q-my-lg"
               v-model="toggle"
               no-caps
-              toggle-color="primary"
-              color="secondary"
+              toggle-color="myOrange"
+              color="myDarkGrey"
               :options="[
                 {label: activeNr, value: 'active', style: 'font-size:24pt'},
                 {label: maxNr, value: 'max', style: 'font-size:24pt'}
@@ -41,25 +88,12 @@
         <q-btn
           flat
           @click="handleDecrease()"
-          class="full-width">
+          class="full-width q-py-xl">
           <q-icon name="arrow_drop_down" style="font-size: 4rem;" />
         </q-btn>
       </q-card-section>
     </q-card>
-    <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar :class="getSthChanged ? 'bg-negative' : 'bg-positive'">
-        <q-toolbar-title class="text-center">
-          <q-btn
-            :disable="!getSthChanged"
-            icon="update"
-            label="Update"
-            class="full-width"
-            @click="handleUpdate()"
-            flat />
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">
@@ -86,22 +120,20 @@ export default defineComponent({
       commitSetActiveRightWingPassengers,
       commitSetMaxLeftWingPassengers,
       commitSetMaxRightWingPassengers,
-      commitSetSthChanged,
-      getSthChanged,
       updatePassengers
     } = useWing()
     const activeNr = props.side === 'left' ? getActiveLeftWingPassengers : getActiveRightWingPassengers
     const maxNr = props.side === 'left' ? getMaxLeftWingPassengers : getMaxRightWingPassengers
 
-    function handleIncrease () {
+    async function handleIncrease () {
       if (toggle.value === 'active') {
-        handleIncreaseActive()
+        await handleIncreaseActive()
       } else {
-        handleIncreaseMax()
+        await handleIncreaseMax()
       }
     }
 
-    function handleIncreaseActive () {
+    async function handleIncreaseActive () {
       if (activeNr.value >= maxNr.value) {
         return
       }
@@ -110,10 +142,10 @@ export default defineComponent({
       } else {
         commitSetActiveRightWingPassengers(activeNr.value + 1)
       }
-      commitSetSthChanged(true)
+      await updatePassengers(props.side, activeNr.value, maxNr.value)
     }
 
-    function handleIncreaseMax () {
+    async function handleIncreaseMax () {
       if (maxNr.value >= 100) {
         return
       }
@@ -122,18 +154,18 @@ export default defineComponent({
       } else {
         commitSetMaxRightWingPassengers(maxNr.value + 1)
       }
-      commitSetSthChanged(true)
+      await updatePassengers(props.side, activeNr.value, maxNr.value)
     }
 
-    function handleDecrease () {
+    async function handleDecrease () {
       if (toggle.value === 'active') {
-        handleDecreaseActive()
+        await handleDecreaseActive()
       } else {
-        handleDecreaseMax()
+        await handleDecreaseMax()
       }
     }
 
-    function handleDecreaseActive () {
+    async function handleDecreaseActive () {
       if (activeNr.value <= 0) {
         return
       }
@@ -142,10 +174,10 @@ export default defineComponent({
       } else {
         commitSetActiveRightWingPassengers(activeNr.value - 1)
       }
-      commitSetSthChanged(true)
+      await updatePassengers(props.side, activeNr.value, maxNr.value)
     }
 
-    function handleDecreaseMax () {
+    async function handleDecreaseMax () {
       if (maxNr.value <= activeNr.value) {
         return
       }
@@ -154,11 +186,8 @@ export default defineComponent({
       } else {
         commitSetMaxRightWingPassengers(maxNr.value - 1)
       }
-      commitSetSthChanged(true)
-    }
-
-    async function handleUpdate () {
-      await updatePassengers(props.side, activeNr.value, maxNr.value).then(() => commitSetSthChanged(false))
+      /* commitSetSthChanged(true) */
+      await updatePassengers(props.side, activeNr.value, maxNr.value)
     }
 
     return {
@@ -166,10 +195,20 @@ export default defineComponent({
       activeNr,
       maxNr,
       handleIncrease,
-      handleDecrease,
-      getSthChanged,
-      handleUpdate
+      handleDecrease
     }
   }
 })
 </script>
+<style scoped>
+
+.container {
+  position: absolute;
+  width: 100%;
+  max-width: 1024px;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+</style>

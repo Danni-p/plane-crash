@@ -27,7 +27,7 @@
       >
         <div class="text-h5 text-center q-pb-md">Noch {{distance}} km bis zur Insel!</div>
         <div class="text-subtitle1 q-pb-md">Zum Schwimmen ist es noch etwas zu weit. Aber glücklicherweise
-          findet ihr ein kleines Schlauboot zwischen den Wrackteilen.
+          findet ihr ein kleines Schlauchboot zwischen den Wrackteilen.
         </div>
         <q-img src="schlauchboot.jpeg" />
       </q-step>
