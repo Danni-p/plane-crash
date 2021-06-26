@@ -43,7 +43,7 @@
         </div>
         <ol>
           <li class="text-subtitle1 q-pb-xs">
-            Wählt zunächst die ersten 3 Fahrer aus, die zur Insel rudern. 
+            Wählt zunächst die ersten 3 Fahrer aus, die zur Insel rudern.
           </li>
           <li class="text-subtitle1 q-pb-xs">
             Dort angekommen, rudert einer von euch wieder zurück, während die anderen in der zwischenzeit eigene Boot bauen.

@@ -83,15 +83,15 @@ export default defineComponent({
       xs: [0, 500]
     })
     async function gotoLeftWing () {
-      await router.push({ name: 'LeftWing'})
+      await router.push({ name: 'LeftWing' })
     }
 
     async function gotoRightWing () {
-      await router.push({ name: 'RightWing'})
+      await router.push({ name: 'RightWing' })
     }
 
     async function gotoCockpit() {
-      await router.push({ name: 'InitCockpit'})
+      await router.push({ name: 'InitCockpit' })
     }
 
     const slide = ref(1)
@@ -101,7 +101,7 @@ export default defineComponent({
         return 'Linker Flügel'
       } else if (slide.value === 2) {
         return 'Cockpit'
-      } else if (slide.value === 3) {
+      } else {
         return 'Rechter Flügel'
       }
     })

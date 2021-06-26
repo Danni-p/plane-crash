@@ -14,9 +14,7 @@ export default defineComponent({
     Password
   },
   setup () {
-    
-    return { 
-    }
+    return {}
   }
 })
 </script>

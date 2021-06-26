@@ -51,7 +51,6 @@
     </q-stepper>
     </div>
     <!-- <q-card dark bordered class="full-width bg-primary q-pa-md">
-      
       <q-card-section>
         <div class="text-h5 text-center q-pb-md">Herzlichen Glückwunsch!</div>
         <div class="text-subtitle1">Das war eine hervorragende Landung! Ihr habt die Nerven bewahrt, habt alle super zusammen

@@ -61,10 +61,10 @@ export default defineComponent({
       }
     })
 
-    watchEffect(async () => {
+    watchEffect(() => {
       if (calcAbsoluteDistanceInKm(getX.value, getY.value) * 1000 <= 300) {
         stopSimulation()
-        await router.push({ name: 'Win' })
+        void router.push({ name: 'Win' })
       }
     })
 

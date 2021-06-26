@@ -8,22 +8,32 @@
       <div
         class="col-12 text-center"
         :style="'transform: rotate(' + getBeta + 'deg)'">
-        
         <q-avatar
-          :size="size + 'rem'"
-          color="primary"
-          text-color="white"
-          icon="flight">
-          <!-- :style="`transform: translate(${radarX}rem,${radarY}rem);`" -->
-          <div
-            class="target"
-            :style="`transform: rotate(${-getBeta}deg) translate(${radarX}rem,${radarY}rem)`"
-            >
-            <q-icon
-              name="adjust"
-              size="30px"
-            />
+          :size="size + 'px'"
+          font-size="0px"
+          color="transparent">
+          <div class="target" style="position: absolute">
+            <q-img class="radar" :width="size+'px'" src="radar3.png">
+
+              
+                
+            </q-img>
           </div>
+
+          <div
+                class="target bg-transparent q-pa-none"
+                :style="`transform: rotate(${-getBeta}deg) translate(${radarX}px,${radarY}px)`"
+                >
+                <q-icon name="adjust" size="30px" color="white"/>
+              </div>
+
+              <div
+                class="target bg-transparent q-pa-none"
+                :style="`transform: rotate(${-getBeta}deg) translate(${0}px,${0}px)`">
+                <div :style="`transform: rotate(${getBeta}deg)`">
+                  <q-icon color="white" name="flight" size="50px" />
+                </div>
+              </div>          
         </q-avatar>
       </div>
     </div>
@@ -34,6 +44,7 @@
 import { defineComponent, computed } from 'vue'
 import useCockpit from 'src/modules/cockpit/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
+import { calcAbsoluteDistanceInKm } from 'src/utils/CalculateUtils'
 
 export default defineComponent({
   name: 'FlightDirection',
@@ -46,7 +57,8 @@ export default defineComponent({
     const {
       getBeta,
       getX,
-      getY
+      getY,
+      getStartDistance
     } = useCockpit()
 
     const size = computed(() => {
@@ -57,16 +69,22 @@ export default defineComponent({
       } else if (mq.md.matches) {
         return 10
       } else {
-        return 14
+        return 400
       }
     })
 
     const radarX = computed(() => {
-      return -Math.sin(Math.atan2(getX.value, getY.value)) * size.value / 2
+      const curDist = calcAbsoluteDistanceInKm(getX.value, getY.value) * 1000
+      const startDist = getStartDistance.value
+      const relLength = curDist / startDist > 1 ? 1 : curDist / startDist
+      return -Math.sin(Math.atan2(getX.value, getY.value)) * (size.value / 2) * relLength
     })
 
     const radarY = computed(() => {
-      return -Math.cos(Math.atan2(getX.value, getY.value)) * size.value / 1.9
+      const curDist = calcAbsoluteDistanceInKm(getX.value, getY.value) * 1000
+      const startDist = getStartDistance.value
+      const relLength = curDist / startDist > 1 ? 1 : curDist / startDist
+      return -Math.cos(Math.atan2(getX.value, getY.value)) * (size.value / 2) * relLength
     })
 
     return {
@@ -96,7 +114,18 @@ export default defineComponent({
 
 .target {
   position: absolute;
+  padding: 0;
   /*transform: translate(7rem,5rem);*/
 }
+
+.radar {
+  -webkit-animation:spin 5s linear infinite;
+  -moz-animation:spin 5s linear infinite;
+  animation:spin 5s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 </style>

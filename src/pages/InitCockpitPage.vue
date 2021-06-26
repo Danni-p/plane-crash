@@ -18,7 +18,7 @@
                   type="number"
                   label="Flugzeit">
                   <template v-slot:append>min</template>
-                </q-input> 
+                </q-input>
               </div>
             </div>
             <div class="row">
