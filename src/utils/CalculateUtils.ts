@@ -1,5 +1,5 @@
 export const calcMinVelocityZ = (height: number, veloX: number, distX: number) => {
-  return (height * veloX) / (distX * 2) // fallgeschwindigkeit so berechnet dass im idealfall für zwei strecken reicht
+  return (height * veloX) / (distX * 1.5) // fallgeschwindigkeit so berechnet dass im idealfall für etwas mehr als 1 strecke reicht
 }
 
 export const calcMaxVelocityZ = (minVeloZ: number) => {

@@ -63,7 +63,7 @@ function calculateNextSimulationStep () {
   const nextZ = getZ.value - deltaZDot * (timeInMillis / 1000)
 
   // next X,Y,beta
-  const deltaXRot = getDeflection.value * (getVelocityXY.value * (timeInMillis / 1000)) / 2 // between +-veloXY/2 m/s
+  const deltaXRot = getDeflection.value * (getVelocityXY.value * (timeInMillis / 1000)) / 3 // between +-veloXY/2 m/s
   const deltaYRot = Math.sqrt(Math.pow(getVelocityXY.value * (timeInMillis / 1000), 2) - Math.pow(deltaXRot, 2)) // m/s
   const deltaBetaRad = Math.atan2(deltaYRot, deltaXRot) // rad
   /* const deltaBetaRot = - Math.PI / 2 + deltaBetaRad */
@@ -79,9 +79,9 @@ function calculateNextSimulationStep () {
 
   // next angle
   const nextAngle = getDeflection.value * 90
-  console.log('test rots', deltaXRot, deltaYRot, deltaBetaRad, deltaBetaRadPrev)
+  /* console.log('test rots', deltaXRot, deltaYRot, deltaBetaRad, deltaBetaRadPrev)
   console.log('test deltas', deltaX, deltaY, deltaBetaDeg)
-  console.log('test next', nextX, nextY, nextBeta)
+  console.log('test next', nextX, nextY, nextBeta) */
 
   // Update
   commitSetX(nextX)

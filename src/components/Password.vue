@@ -1,12 +1,13 @@
 <template>
-  <q-card :class="mq.xs.matches ? 'full-width' : 'desktop-card'">
-      <q-card-section class="bg-primary text-white">
+  <q-card :class="mq.xs.matches ? 'full-width' : 'desktop-card'" class="bg-myDarkBrown">
+      <q-card-section class="bg-myOrange text-white">
         <div class="text-h6">Password eingeben</div>
       </q-card-section>
       <q-form @submit="handleLogin()">
         <q-card-section>
           <q-input
             outlined
+            bg-color="myDarkGrey"
             v-model="pwd"
             type="password"/>
         </q-card-section>
@@ -14,6 +15,7 @@
         <q-card-actions align="center">
           <q-btn
             flat
+            text-color="myOrange"
             label="Anmelden"
             type="submit" />
         </q-card-actions>

@@ -34,7 +34,6 @@ body {
   background: #16a3be;/*#231f1e;*/
 }
 
-
 .text-myDarkBrown {
   color: 231f1e;
 }

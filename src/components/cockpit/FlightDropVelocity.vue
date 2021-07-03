@@ -50,7 +50,7 @@ export default defineComponent({
 
     const colorClass = computed(() => {
       const relVelo = (curVelocityY.value - getMinZDot.value) / (maxVeloZ - getMinZDot.value)
-      return 'text-deep-orange-' + Math.ceil(relVelo * 10)
+      return 'text-deep-orange-' + Math.ceil(relVelo * 10).toString()
     })
 
     const size = computed(() => {

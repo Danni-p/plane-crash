@@ -9,7 +9,6 @@
         <q-icon name="arrow_drop_up" style="font-size: 4rem;" />
       </q-btn>
     </div>
-    
     <div class="row items-center">
       <div class=" col-12 row">
         <div class="col-6 text-center">
