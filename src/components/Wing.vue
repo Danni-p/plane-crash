@@ -1,6 +1,6 @@
 <template>
   <div class="container q-pa-md myCard">
-    <div class="q-pb-xl">
+    <!-- <div class="q-pb-xl">
       <q-btn
         flat
         text-color="white"
@@ -8,7 +8,7 @@
         class="full-width bg-myDarkBrown full-height">
         <q-icon name="arrow_drop_up" style="font-size: 4rem;" />
       </q-btn>
-    </div>
+    </div> -->
     <div class="row items-center">
       <div class=" col-12 row">
         <div class="col-6 text-center">
@@ -35,7 +35,25 @@
         />
       </div>
     </div>
-    <div class="q-pt-xl">
+    <div class="row">
+      <div class="col-6 text-center q-pr-sm">
+        <q-btn
+          class="full-width"
+          size="50px"
+          color="mySecondary"
+          @click="handleDecrease()"
+          icon="remove" />
+      </div>
+      <div class="col-6 text-center q-pl-sm">
+        <q-btn
+          class="full-width"
+          @click="handleIncrease()"
+          size="50px"
+          color="mySecondary"
+          icon="add" />
+      </div>
+    </div>
+    <!-- <div class="q-pt-xl">
       <q-btn
         flat
         text-color="white"
@@ -43,56 +61,8 @@
         class="full-width full-height bg-myDarkBrown">
         <q-icon name="arrow_drop_down" style="font-size: 4rem;" />
       </q-btn>
-    </div>
+    </div> -->
   </div>
-  <!-- <div class="col-md-6 col-12 q-pa-sm my-card">
-    <q-card class=" bg-myDarkBrown text-white">
-      <q-card-section>
-        <q-btn
-          flat
-          @click="handleIncrease()"
-          class="full-width q-py-xl">
-          <q-icon name="arrow_drop_up" style="font-size: 4rem;" />
-        </q-btn>
-      </q-card-section>
-      <q-separator dark />
-      <q-card-section>
-        <div class="row">
-          <div class="col-6 text-center">
-          <div class="text-subtitle1">aktiv</div>
-          </div>
-          <div class="col text-center">
-            <div class="text-subtitle1">max</div>
-            </div>
-          </div>
-          <div>
-            <q-btn-toggle
-              unelevateds
-              spread
-              size="lg"
-              class="q-my-lg"
-              v-model="toggle"
-              no-caps
-              toggle-color="myOrange"
-              color="myDarkGrey"
-              :options="[
-                {label: activeNr, value: 'active', style: 'font-size:24pt'},
-                {label: maxNr, value: 'max', style: 'font-size:24pt'}
-              ]"
-            />
-          </div>
-      </q-card-section>
-      <q-separator dark />
-      <q-card-section>
-        <q-btn
-          flat
-          @click="handleDecrease()"
-          class="full-width q-py-xl">
-          <q-icon name="arrow_drop_down" style="font-size: 4rem;" />
-        </q-btn>
-      </q-card-section>
-    </q-card>
-  </div> -->
 </template>
 
 <script lang="ts">

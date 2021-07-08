@@ -71,11 +71,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
   name: 'WinPage',
   setup () {
+
+    onMounted(async () => {
+      const audio = new Audio('sounds/applaus.mp3')
+      await audio.play()
+    })
+
     return {
       step: ref(1)
     }

@@ -13,20 +13,27 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <online-status-bar />
   </q-layout>
 </template>
 
 <script lang="ts">
 
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import useAuth from 'src/modules/auth/store'
 import { useRouter } from 'vue-router'
+import OnlineStatusBar from 'src/components/OnlineStatusBar.vue'
 
 export default defineComponent({
   name: 'MainLayout',
+  components: {
+    OnlineStatusBar
+  },
   setup () {
     const router = useRouter()
     const { isAuthenticated, logout } = useAuth()
+
+    const isOnline = computed(() => navigator.onLine)
 
     async function handleLogout () {
       await logout().then(async () => {
@@ -37,7 +44,8 @@ export default defineComponent({
     }
     return {
       isAuthenticated,
-      handleLogout
+      handleLogout,
+      isOnline
     }
   }
 })

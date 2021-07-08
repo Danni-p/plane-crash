@@ -52,6 +52,7 @@ import useCockpit from 'src/modules/cockpit/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
 import { calcAbsoluteDistanceInKm } from 'src/utils/CalculateUtils'
 import { useRouter } from 'vue-router'
+import { AlertStatus } from 'src/modules/cockpit/types/primitive-types'
 
 export default defineComponent({
   name: 'Cockpit',

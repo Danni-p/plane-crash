@@ -10,11 +10,13 @@
         <div style="position: absolute">
           <q-img :width="size + 'px'" src="cockpit/neigung.png" />
         </div>
-
-        <div
-          class="target bg-transparent q-pa-none"
-          :style="`transform: rotate(${getAngle}deg)`">
-          <q-img class="" :width="size/ 1.5 + 'px'" src="angle.png" />
+         <!-- :style="`transform: rotate(${getAngle}deg)`" -->
+        <div class="plane-shake">
+          <div
+            class="target bg-transparent q-pa-none plane-transition"
+            :style="`transform: rotate(${getAngle}deg)`">
+            <q-img class="" :width="size/ 1.5 + 'px'" src="angle.png" />
+          </div>
         </div>
       </q-avatar>
     </div>
@@ -108,6 +110,29 @@ export default defineComponent({
 
 .angle-xs {
   text-align: left;
+}
+
+.plane-transition {
+  transition: all 0.8s;
+}
+
+.plane-shake {
+  animation: shake 10s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-3deg); }
+  20% { transform: rotate(3deg); }
+  30% { transform: rotate(0deg); }
+  40% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  60% { transform: rotate(0deg); }
+  70% { transform: rotate(-3deg); }
+  80% { transform: rotate(3deg); }
+  90% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
 }
 
 </style>

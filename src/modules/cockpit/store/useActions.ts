@@ -3,6 +3,7 @@ import useGetters from './useGetters'
 import useMutations from './useMutations'
 import { calcZDot } from 'src/utils/CalculateUtils'
 import state from './state'
+/* import { AlertStatus } from '../types/primitive-types' */
 
 let simulation: ReturnType<typeof window.setInterval> | null = null
 const timeInMillis = 1000
@@ -27,15 +28,19 @@ const {
   commitSetY
 } = useMutations()
 
+const audio = new Audio('sounds/cabine-noise.mp3')
+
 export default function useActions () {
-  function startSimulation () {
+  async function startSimulation () {
     console.log('start')
+    await audio.play()
     simulation = setInterval(calculateNextSimulationStep, timeInMillis)
   }
 
   function stopSimulation () {
     console.log('stop')
     if (simulation) {
+      audio.pause()
       clearInterval(simulation)
     }
   }
@@ -50,10 +55,15 @@ export default function useActions () {
     state.velocityXY = 300
   }
 
+  function setAlertStatus (/* status: AlertStatus */) {
+    // TODO: send Status to backend
+  }
+
   return {
     startSimulation,
     stopSimulation,
-    resetState
+    resetState,
+    setAlertStatus
   }
 }
 

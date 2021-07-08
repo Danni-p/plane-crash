@@ -13,6 +13,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <online-status-bar />
   </q-layout>
 </template>
 
@@ -21,9 +22,13 @@
 import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import useCockpit from 'src/modules/cockpit/store'
+import OnlineStatusBar from 'src/components/OnlineStatusBar.vue'
 
 export default defineComponent({
   name: 'CockpitLayout',
+  components: {
+    OnlineStatusBar
+  },
   setup () {
     const router = useRouter()
     const { resetState, stopSimulation } = useCockpit()

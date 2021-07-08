@@ -20,8 +20,11 @@
               no-parent-event
               anchor="top middle"
               self="center middle"
+              class="bg-mySecondary"
+              :offset="[20, 30]"
               v-model="tooltip">
-              {{curDistance}} km
+              <span style="font-size:20px">
+              {{curDistance}} km</span>
             </q-tooltip>
           </q-icon>
         </div>

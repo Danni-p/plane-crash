@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, onMounted } from 'vue'
 import useCockpit from 'src/modules/cockpit/store'
 import { calcAbsoluteDistanceInKm } from 'src/utils/CalculateUtils'
 
@@ -89,6 +89,12 @@ export default defineComponent({
     const distance = computed(() => {
       return Math.round(calcAbsoluteDistanceInKm(getX.value, getY.value) * 10) / 10
     })
+
+    onMounted(async () => {
+      const audio = new Audio('sounds/water-impact.mp3')
+      await audio.play()
+    })
+
     return {
       step: ref(1),
       distance

@@ -3,12 +3,12 @@
     <div class="col-12" :class="heightClass">
       <q-circular-progress
         show-value
-        class="text-white"
+        :style="`color: ${alertColor};`"
         :value="getZ"
         :size="size+'px'"
         :max="startHeight"
-        color="myOrange"
-        :font-size="`${size/10}px`">
+        :color="alertColor"
+        :font-size="`${size/7}px`">
         <q-img :width="size-30 + 'px'" src="cockpit/hoehe.png" />
         <div class="" style="position: absolute">
           {{ZGreaterZero}} m
@@ -24,6 +24,7 @@ import useCockpit from 'src/modules/cockpit/store'
 import useWing from 'src/modules/wing/store'
 import useBreakpoints from 'src/utils/useBreakpoints'
 import { useRouter } from 'vue-router'
+import { AlertStatus } from 'src/modules/cockpit/types/primitive-types'
 
 export default defineComponent({
   name: 'FlightHeight',
@@ -39,7 +40,8 @@ export default defineComponent({
     const {
       getZ,
       getMinZDot,
-      stopSimulation
+      stopSimulation,
+      getAlertStatus
     } = useCockpit()
 
     const { getDropFactor } = useWing()
@@ -88,14 +90,39 @@ export default defineComponent({
       }
     })
 
+    const alertColor = computed(() => {
+      if (getAlertStatus.value === AlertStatus.SAFE) {
+        return 'green'
+      } else if (getAlertStatus.value === AlertStatus.WARNING) {
+        return 'yellow'
+      } else if (getAlertStatus.value === AlertStatus.DANGER) {
+        return 'orangered'
+      } else if (getAlertStatus.value === AlertStatus.BRACE_FOR_IMPACT) {
+        return 'red'
+      } 
+    })
+    const audio = new Audio('sounds/danger.mp3')
+    const impactVoice = new Audio('sounds/impact-voice.mp3')
+    impactVoice.loop = true
+
     watch(getZ, async (newVal) => {
       if (newVal <= 0) {
         stopSimulation()
+        audio.pause()
+        impactVoice.pause()
         await router.push({ name: 'Loose' })
       }
     })
 
-    const ZGreaterZero = computed(() => getZ.value < 0 ? 0 : getZ.value)
+    watch(getAlertStatus, async (newVal) => {
+      if (newVal === AlertStatus.DANGER) {  
+        await audio.play()
+      } else if (newVal === AlertStatus.BRACE_FOR_IMPACT) {
+        await impactVoice.play()
+      }
+    })
+
+    const ZGreaterZero = computed(() => getZ.value < 0 ? 0 : Math.round(getZ.value))
 
     return {
       getZ,
@@ -105,7 +132,8 @@ export default defineComponent({
       size,
       fontSize,
       mq,
-      heightClass
+      heightClass,
+      alertColor
     }
   }
 })

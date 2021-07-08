@@ -9,22 +9,10 @@
         <q-toolbar-title class="text-center">{{pageTitle}}</q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <!-- <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar :class="getSthChanged ? 'bg-negative' : 'bg-positive'">
-        <q-toolbar-title class="text-center">
-          <q-btn
-            :disable="!getSthChanged"
-            icon="update"
-            label="Update"
-            class="full-width"
-            @click="handleUpdate()"
-            flat />
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer> -->
     <q-page-container>
       <router-view />
     </q-page-container>
+  <online-status-bar />
   </q-layout>
 </template>
 
@@ -32,9 +20,13 @@
 
 import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import OnlineStatusBar from 'src/components/OnlineStatusBar.vue'
 
 export default defineComponent({
   name: 'WingLayout',
+  components: {
+    OnlineStatusBar
+  },
   setup () {
     const router = useRouter()
     const pageTitle = computed(() => {

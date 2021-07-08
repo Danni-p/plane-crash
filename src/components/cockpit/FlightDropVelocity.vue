@@ -6,7 +6,7 @@
         color="transparent"
         text-color="white">
         <q-img :width="size + 'px'" src="cockpit/fallVelo.png" />
-        <div :class="colorClass" :style="`font-size: ${size/10}px; position: absolute;`">
+        <div :class="colorClass" :style="`font-size: ${size/7}px; position: absolute;`">
           {{curVelocityY}} m/s
         </div>
       </q-avatar>
